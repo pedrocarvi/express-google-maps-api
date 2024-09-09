@@ -21,10 +21,6 @@ app.get('/api/place-autocomplete', async (req, res) => {
         return res.status(400).json({ error: 'El parámetro "input" es requerido.' });
     }
 
-    if (input.length <= 10) {
-        return res.status(400).json({ error: 'El parámetro "input" debe tener más de 10 caracteres.' });
-    }
-
     try {
         const response = await axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json`, {
             httpsAgent: agent,
@@ -100,14 +96,21 @@ app.get('/api/directions', async (req, res) => {
             },
         });
 
+        // Accede a la polyline dentro de la respuesta
         const route = response.data.routes[0];
         if (!route) {
             return res.status(404).json({ error: 'No se encontró una ruta entre los puntos dados.' });
         }
 
-        res.json({
-            polyline: route.overview_polyline.points,
-        });
+        // console.log("polyline routes", route.overview_polyline);
+        const polyline = route.overview_polyline ? route.overview_polyline.points : null;
+        // console.log("Polyline", polyline);
+
+        if (!polyline) {
+            return res.status(404).json({ error: 'No se encontró una polyline en la respuesta.' });
+        }
+
+        res.json({ polyline });
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Error al obtener la ruta.' });
