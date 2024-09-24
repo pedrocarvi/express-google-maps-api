@@ -103,6 +103,8 @@ app.get('/api/reverse-geocode', async (req, res) => {
         });
 
         if (response.data.status === 'OK') {
+            // Devuelvo la formatted_address, pero se puede traer distinta data de la dirección
+            // https://developers.google.com/maps/documentation/geocoding/requests-reverse-geocoding?hl=es-419
             res.json(response.data.results[0].formatted_address); 
         } else {
             res.status(400).json({ error: 'No se pudo transformar las coordenadas en una dirección válida.' });

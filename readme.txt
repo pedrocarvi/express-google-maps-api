@@ -2,10 +2,14 @@ Se requiere generar una API KEY desde la cuenta de Google Cloud.
 
 1. Crear nuevo proyecto en Google Cloud
 
-2. Ir a API & Services, buscar Places API y habilitarlo. Genera Api Key.
+2. Ir a API & Services, buscar Places API y habilitarlo. Copiar la Api Key generada y pegarla en el archivo .env.
 
-3. Para el calculo de distancias, habilitar el servicio Directions API.
+APIs y Servicios que se utilizan en la API
 
-4. Para la conversión de texto a Longitud y Latitud y viceversa, habilitar Geocoding API
+- Para el calculo de distancias, se requiere el servicio Directions API.
 
-Habilitar tambien Maps Javascript API (para que permita en web).
+- Para la conversión de texto a Longitud y Latitud y viceversa, se requiere Geocoding API
+
+Habilitar tambien Maps Javascript API para que se pueda utilizar en web.
+
+Habilitar servicio de 'Maps SDK for Android' y 'Maps SDK for iOS' para que se pueda utilizar en mobile.
