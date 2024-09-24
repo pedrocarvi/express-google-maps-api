@@ -52,6 +52,7 @@ app.get('/api/distance', async (req, res) => {
     }
 });
 
+// Transformo direccion en latitud y longitud
 app.get('/api/geocode', async (req, res) => {
     const address = req.query.address;
 
@@ -76,6 +77,39 @@ app.get('/api/geocode', async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Error al convertir la dirección.' });
+    }
+});
+
+// Transformo latitud y longitud en dirección
+app.get('/api/reverse-geocode', async (req, res) => {
+    const lat = req.query.lat;
+    const long = req.query.long;
+
+    if (!lat) {
+        return res.status(400).json({ error: 'El parámetro "lat" es requerido.' });
+    } 
+
+    if (!long) {
+        return res.status(400).json({ error: 'El parámetro "long" es requerido.' });
+    }
+
+    try {
+        const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
+            httpsAgent: agent,
+            params: {
+                latlng: `${lat},${long}`, 
+                key: apiKey
+            }
+        });
+
+        if (response.data.status === 'OK') {
+            res.json(response.data.results[0].formatted_address); 
+        } else {
+            res.status(400).json({ error: 'No se pudo transformar las coordenadas en una dirección válida.' });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Error al convertir las coordenadas.' });
     }
 });
 
