@@ -14,6 +14,7 @@ const agent = new https.Agent({
     rejectUnauthorized: false,
 });
 
+// Autcompleta busqueda de direcciones en un Input
 app.get('/api/place-autocomplete', async (req, res) => {
     const input = req.query.input;
 
@@ -36,6 +37,7 @@ app.get('/api/place-autocomplete', async (req, res) => {
     }
 });
 
+// Calcula distancia entre dos puntos
 app.get('/api/distance', async (req, res) => {
     try {
         const { origin, destination } = req.query;
@@ -52,7 +54,7 @@ app.get('/api/distance', async (req, res) => {
     }
 });
 
-// Transformo direccion en latitud y longitud
+// Transformo address en latitud y longitud
 app.get('/api/geocode', async (req, res) => {
     const address = req.query.address;
 
@@ -80,7 +82,7 @@ app.get('/api/geocode', async (req, res) => {
     }
 });
 
-// Transformo latitud y longitud en dirección
+// Transformo latitud y longitud en address
 app.get('/api/reverse-geocode', async (req, res) => {
     const lat = req.query.lat;
     const long = req.query.long;
@@ -115,6 +117,7 @@ app.get('/api/reverse-geocode', async (req, res) => {
     }
 });
 
+// Consigo el polyline (ruta) entre 2 puntos
 app.get('/api/directions', async (req, res) => {
     const { origin, destination } = req.query;
 
@@ -152,7 +155,6 @@ app.get('/api/directions', async (req, res) => {
         res.status(500).json({ error: 'Error al obtener la ruta.' });
     }
 });
-
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
